@@ -6,12 +6,20 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint"
+		"lint": "eslint",
+		"db:seed": "npx tsx src/db/seed.ts",
+		"db:seed:faker": "npx tsx src/db/seed-full.ts"
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.3.0",
+		"@faker-js/faker": "^10.3.0",
 		"clsx": "^2.1.1",
+		"dotenv": "^17.3.1",
+		"drizzle-orm": "^0.45.1",
+		"html-to-image": "^1.11.13",
 		"next": "16.1.6",
+		"pg": "^8.20.0",
+		"postgres": "^3.4.8",
 		"react": "19.2.3",
 		"react-dom": "19.2.3",
 		"shiki": "^4.0.2",
@@ -22,9 +30,12 @@
 		"@biomejs/biome": "^2.4.6",
 		"@tailwindcss/postcss": "^4.2.1",
 		"@types/node": "^20",
+		"@types/pg": "^8.18.0",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"drizzle-kit": "^0.31.9",
 		"tailwindcss": "4.2",
+		"tsx": "^4.21.0",
 		"typescript": "^5"
 	}
 }

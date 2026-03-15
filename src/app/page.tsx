@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CodeInput } from "@/components/ui/code-input";
+import { CodeEditor } from "@/components/ui/code-editor";
 import { TableRow } from "@/components/ui/table-row";
 import { Toggle } from "@/components/ui/toggle";
 
@@ -11,7 +11,7 @@ export default function Home() {
 	const [roastMode, setRoastMode] = useState(false);
 
 	return (
-		<main className="mx-auto flex max-w-[780px] flex-col gap-8 px-10 py-20">
+		<main className="mx-auto flex max-w-5xl  flex-col gap-8 px-10 py-20">
 			{/* Hero */}
 			<div className="flex flex-col gap-3">
 				<h1 className="flex items-center gap-3 font-bold font-mono text-[#fafafa] text-[36px]">
@@ -25,14 +25,16 @@ export default function Home() {
 			</div>
 
 			{/* Code Input */}
-			<CodeInput className="h-[360px] w-full" />
+			<CodeEditor size="full" className="w-full" />
 
 			{/* Actions Bar */}
 			<div className="flex items-center justify-between">
 				<Toggle checked={roastMode} onPressedChange={setRoastMode}>
 					roast mode
 				</Toggle>
-				<Button disabled variant="default">$ roast_my_code</Button>
+				<Button disabled variant="default">
+					$ roast_my_code
+				</Button>
 			</div>
 
 			{/* Stats Footer */}

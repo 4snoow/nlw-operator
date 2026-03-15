@@ -16,9 +16,9 @@ const toggleTv = tv({
 });
 
 export interface ToggleProps
-	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+	extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "value">,
 		VariantProps<typeof toggleTv> {
-	pressed?: boolean;
+	checked?: boolean;
 	onPressedChange?: (pressed: boolean) => void;
 }
 
@@ -34,27 +34,24 @@ export function Toggle({
 			pressed={checked}
 			onPressedChange={onPressedChange}
 			className={toggleTv({ checked, className })}
-			{...props}
-			render={(renderProps, state) => (
-				<button {...renderProps}>
-					<span
-						className={cn(
-							"flex h-[22px] w-[40px] items-center rounded-[11px] p-[3px] transition-colors",
-							state.pressed ? "bg-primary" : "bg-[#2a2a2a]",
-						)}
-					>
-						<span
-							className={cn(
-								"h-4 w-4 rounded-full transition-transform",
-								state.pressed
-									? "translate-x-[18px] bg-[#0a0a0a]"
-									: "translate-x-0 bg-[#6b7280]",
-							)}
-						/>
-					</span>
-					{children}
-				</button>
-			)}
-		/>
+			disabled={props.disabled}
+		>
+			<span
+				className={cn(
+					"flex h-[22px] w-[40px] items-center rounded-[11px] p-[3px] transition-colors",
+					checked ? "bg-primary" : "bg-[#2a2a2a]",
+				)}
+			>
+				<span
+					className={cn(
+						"h-4 w-4 rounded-full transition-transform",
+						checked
+							? "translate-x-[18px] bg-[#0a0a0a]"
+							: "translate-x-0 bg-[#6b7280]",
+					)}
+				/>
+			</span>
+			{children}
+		</BaseToggle>
 	);
 }

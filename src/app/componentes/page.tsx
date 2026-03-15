@@ -106,24 +106,9 @@ export default function ComponentsPage() {
 				<div className="space-y-4">
 					<h3 className="font-medium text-lg">Exemplo</h3>
 					<div className="w-full max-w-3xl overflow-hidden rounded border border-border-primary">
-						<TableRow
-							rank={1}
-							score={2.1}
-							code="function calculateTotal(items) { var total = 0; ..."
-							language="javascript"
-						/>
-						<TableRow
-							rank={2}
-							score={5.8}
-							code="const result = await processData(input);"
-							language="typescript"
-						/>
-						<TableRow
-							rank={3}
-							score={8.4}
-							code="export const handler = async (req) => {"
-							language="typescript"
-						/>
+						<TableRow rank={1} score={2.1} language="javascript" />
+						<TableRow rank={2} score={5.8} language="typescript" />
+						<TableRow rank={3} score={8.4} language="typescript" />
 					</div>
 				</div>
 			</section>
