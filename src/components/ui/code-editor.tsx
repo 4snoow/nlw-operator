@@ -15,9 +15,16 @@ const codeEditorTv = tv({
 			lg: "max-w-[720px]",
 			full: "max-w-full",
 		},
+		height: {
+			sm: "h-[200px]",
+			md: "h-[300px]",
+			lg: "h-[400px]",
+			xl: "h-[500px]",
+		},
 	},
 	defaultVariants: {
 		size: "md",
+		height: "md",
 	},
 });
 
@@ -280,6 +287,7 @@ export function CodeEditor({
 	showControls = true,
 	className,
 	size,
+	height,
 	...props
 }: CodeEditorProps) {
 	const [code, setCode] = useState(initialCode);
@@ -377,7 +385,7 @@ export function CodeEditor({
 	};
 
 	return (
-		<div className={codeEditorTv({ size, className })} {...props}>
+		<div className={codeEditorTv({ size, height, className })} {...props}>
 			{showControls && (
 				<div className="flex flex-wrap items-center gap-2 border-border-primary border-b bg-bg-input p-3">
 					<select
@@ -449,10 +457,10 @@ export function CodeEditor({
 				</div>
 			)}
 
-			<div className="relative" ref={editorRef}>
+			<div className="relative overflow-y-auto" ref={editorRef}>
 				<div className="flex">
 					<div
-						className="flex w-10 flex-col gap-1.5 border-border-primary border-r bg-[#0a0a0a] px-2.5 py-3 text-right font-mono text-[13px] text-gray-500 leading-normal"
+						className="flex w-10 flex-shrink-0 flex-col gap-1.5 border-border-primary border-r bg-[#0a0a0a] px-2.5 py-3 text-right font-mono text-[13px] text-gray-500 leading-normal"
 						style={{ fontFamily: currentFont?.family }}
 					>
 						{code.split("\n").map((_, i) => (
@@ -462,7 +470,7 @@ export function CodeEditor({
 					</div>
 					<div className="relative flex-1 overflow-hidden">
 						<div
-							className="absolute inset-0 overflow-x-auto whitespace-pre p-3 font-mono text-[13px] leading-normal"
+							className="absolute inset-0 overflow-x-auto overflow-y-auto whitespace-pre p-3 font-mono text-[13px] leading-normal"
 							style={{ fontFamily: currentFont?.family }}
 						>
 							{highlightedHtml ? (
@@ -476,7 +484,7 @@ export function CodeEditor({
 							value={code}
 							onChange={handleCodeChange}
 							spellCheck={false}
-							className="absolute inset-0 h-full w-full resize-none bg-transparent p-3 font-mono text-[13px] text-transparent leading-normal caret-white outline-none"
+							className="absolute inset-0 h-full w-full resize-none overflow-y-auto whitespace-pre bg-transparent p-3 font-mono text-[13px] text-transparent leading-normal caret-white outline-none"
 							style={{ fontFamily: currentFont?.family }}
 							placeholder="paste your code here..."
 						/>

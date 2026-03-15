@@ -9,7 +9,7 @@ DevRoast é uma ferramenta que analisa seu código e dá um feedback honesto e i
 ## Funcionalidades
 
 - **Análise de Código**: Cole seu código e receba uma avaliação detalhada
-- **Mode Roast**: Ative para sarcasmos infinitos
+- **Modo Roast**: Ative para sarcasmos infinitos
 - **Leaderboard**: Veja os piores códigos ranqueados por vergonha
 - **Feedback**: Opiniões (nem sempre) construtivas
 
@@ -17,17 +17,52 @@ DevRoast é uma ferramenta que analisa seu código e dá um feedback honesto e i
 
 1. Acesse a página principal
 2. Cole seu código no campo de texto
-3. Ative o modo roast (opcional)
-4. Clique em "roast_my_code"
-5. Descubra o quão horrível seu código é
+3. Selecione a linguagem (auto-detecção disponível)
+4. Escolha o tema e fonte do editor
+5. Clique em "roast_my_code"
+6. Descubra o quão horrível seu código é
 
 ## Tech Stack
 
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Base UI
-- Shiki
+- **Framework**: Next.js 16 (App Router)
+- **Linguagem**: TypeScript
+- **Estilização**: Tailwind CSS v4
+- **Componentes**: Base UI
+- **Syntax Highlighting**: Shiki
+- **ORM**: Drizzle ORM
+- **Banco de Dados**: Neon (PostgreSQL serverless)
+- **Linting**: Biome
+- **Gerador de Imagens**: html-to-image
+
+## Configuração
+
+### Pré-requisitos
+
+- Node.js 18+
+- npm ou yarn
+
+### Instalação
+
+```bash
+npm install
+```
+
+### Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com a connection string do Neon:
+
+```env
+DATABASE_URL=postgresql://neondb_owner:password@host.neon.tech/neondb?sslmode=require
+```
+
+### Scripts Disponíveis
+
+```bash
+npm run dev          # Iniciar servidor de desenvolvimento
+npm run build        # Build de produção
+npm run db:seed      # Seed básico do banco
+npm run db:seed:faker # Seed com 100 roasts de exemplo
+```
 
 ## Contributing
 
