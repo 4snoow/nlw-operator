@@ -9,6 +9,7 @@ export interface CodeBlockProps {
 	score?: number;
 	language?: string;
 	lines?: number;
+	height?: "auto" | "fixed";
 }
 
 export async function CodeBlock({
@@ -20,6 +21,7 @@ export async function CodeBlock({
 	score,
 	language,
 	lines,
+	height = "auto",
 }: CodeBlockProps) {
 	const html = await codeToHtml(code, {
 		lang,
@@ -69,7 +71,11 @@ export async function CodeBlock({
 				</div>
 			)}
 
-			<div className="flex max-h-[120px] overflow-y-auto">
+			<div
+				className={
+					height === "fixed" ? "flex max-h-[120px] overflow-y-auto" : "flex"
+				}
+			>
 				<div className="flex w-10 flex-col items-end gap-1.5 border-border-primary border-r bg-bg-surface px-2.5 py-3 font-mono text-text-tertiary text-xs leading-normal">
 					{Array.from({ length: codeLines.length }, (_, i) => (
 						// biome-ignore lint/suspicious/noArrayIndexKey: line numbers are inherently stable
