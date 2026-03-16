@@ -37,4 +37,31 @@
 
 	--color-bg-page: #0a0a0a;
 	--color-bg-input: #111111;
+	--color-bg-surface: #171717;
+
+	--color-text-primary: #fafafa;
+	--color-text-secondary: #6b7280;
+	--color-text-tertiary: #4b5563;
+
+	--color-accent-green: #10b981;
+	--color-accent-amber: #f59e0b;
+	--color-accent-red: #ef4444;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #444;
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }
