@@ -1,11 +1,11 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { CodeBlock } from "@/components/ui/code-block";
-import { DiffLine } from "@/components/ui/diff-line";
+import { DiffLine } from "@/components/ui/DiffLine";
 import { ScoreRing } from "@/components/ui/score-ring";
+import { Toggle } from "@/components/ui/Toggle";
 import { TableRow } from "@/components/ui/table-row";
-import { Toggle } from "@/components/ui/toggle";
 
 export default function ComponentsPage() {
 	return (

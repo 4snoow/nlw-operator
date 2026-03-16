@@ -1,26 +1,6 @@
-import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/lib/utils";
-
-const diffLineTv = tv({
-	base: "flex font-mono text-[13px] gap-2 px-4 py-2",
-	variants: {
-		type: {
-			removed: "bg-[#1a0a0a]",
-			added: "bg-[#0a1a0f]",
-			context: "",
-		},
-	},
-	defaultVariants: {
-		type: "context",
-	},
-});
-
-export interface DiffLineProps
-	extends React.HTMLAttributes<HTMLDivElement>,
-		VariantProps<typeof diffLineTv> {
-	type: "removed" | "added" | "context";
-	code: string;
-}
+import { diffLineTv } from "./diff-line.styles";
+import type { DiffLineProps } from "./diff-line.types";
 
 export function DiffLine({ className, type, code, ...props }: DiffLineProps) {
 	const prefix = type === "removed" ? "-" : type === "added" ? "+" : " ";
@@ -44,3 +24,5 @@ export function DiffLine({ className, type, code, ...props }: DiffLineProps) {
 		</div>
 	);
 }
+
+export type { DiffLineProps };

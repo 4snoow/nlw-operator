@@ -1,6 +1,6 @@
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
-const buttonTv = tv({
+export const buttonTv = tv({
 	base: "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-[13px] font-[500] font-mono transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
 	variants: {
 		variant: {
@@ -25,13 +25,3 @@ const buttonTv = tv({
 		size: "default",
 	},
 });
-
-export interface ButtonProps
-	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-		VariantProps<typeof buttonTv> {}
-
-export function Button({ className, variant, size, ...props }: ButtonProps) {
-	return (
-		<button className={buttonTv({ variant, size, className })} {...props} />
-	);
-}

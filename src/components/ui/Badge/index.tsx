@@ -1,23 +1,5 @@
-import { tv, type VariantProps } from "tailwind-variants";
-
-const badgeTv = tv({
-	base: "inline-flex items-center gap-2 font-mono text-xs font-normal",
-	variants: {
-		variant: {
-			critical: "text-red-500",
-			warning: "text-amber-500",
-			good: "text-emerald-500",
-			verdict: "text-red-500",
-		},
-	},
-	defaultVariants: {
-		variant: "good",
-	},
-});
-
-export interface BadgeProps
-	extends React.HTMLAttributes<HTMLSpanElement>,
-		VariantProps<typeof badgeTv> {}
+import { badgeTv } from "./badge.styles";
+import type { BadgeProps } from "./badge.types";
 
 export function Badge({ className, variant, children, ...props }: BadgeProps) {
 	return (
@@ -35,3 +17,5 @@ export function Badge({ className, variant, children, ...props }: BadgeProps) {
 		</span>
 	);
 }
+
+export type { BadgeProps };

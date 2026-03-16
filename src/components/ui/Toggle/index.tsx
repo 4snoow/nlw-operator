@@ -1,26 +1,9 @@
 "use client";
 
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
-import type * as React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/lib/utils";
-
-const toggleTv = tv({
-	base: "inline-flex items-center gap-3 cursor-pointer",
-	variants: {
-		checked: {
-			true: "text-primary",
-			false: "text-gray-500",
-		},
-	},
-});
-
-export interface ToggleProps
-	extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "value">,
-		VariantProps<typeof toggleTv> {
-	checked?: boolean;
-	onPressedChange?: (pressed: boolean) => void;
-}
+import { toggleTv } from "./toggle.styles";
+import type { ToggleProps } from "./toggle.types";
 
 export function Toggle({
 	className,
@@ -55,3 +38,5 @@ export function Toggle({
 		</BaseToggle>
 	);
 }
+
+export type { ToggleProps };

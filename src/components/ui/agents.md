@@ -6,15 +6,45 @@ Este documento estabelece os padrões para criação de componentes UI genérico
 
 ## Estrutura de Arquivos
 
+Cada componente tem sua própria pasta com arquivos especializados:
+
 ```
 src/components/ui/
-├── button.tsx
-├── badge.tsx
-├── toggle.tsx
-├── code-block.tsx
-├── AGENTS.md (este arquivo)
-└── [novo-componente].tsx
+├── Button/
+│   ├── index.tsx           (componente principal)
+│   ├── button.styles.ts   (tailwind-variants tv)
+│   └── button.types.ts    (interfaces/types)
+├── Badge/
+│   ├── index.tsx
+│   ├── badge.styles.ts
+│   └── badge.types.ts
+├── Toggle/
+│   ├── index.tsx
+│   ├── toggle.styles.ts
+│   └── toggle.types.ts
+├── Card/
+│   ├── index.tsx
+│   ├── card.styles.ts
+│   └── card.types.ts
+├── CodeEditor/
+│   ├── index.tsx
+│   ├── code-editor.styles.ts
+│   ├── code-editor.types.ts
+│   └── code-editor.constants.ts  (constantes, se necessário)
+├── DiffLine/
+│   ├── index.tsx
+│   ├── diff-line.styles.ts
+│   └── diff-line.types.ts
+├── AGENTS.md
+└── [outros componentes simples]
 ```
+
+### Separação de Responsabilidades
+
+- **`index.tsx`**: Componente React principal, imports apenas os arquivos locais
+- **`.styles.ts`**: Definição do `tv()` do tailwind-variants
+- **`.types.ts`**: Interfaces e tipos TypeScript
+- **`.constants.ts`**: Constantes, arrays, funções utilitárias (opcional)
 
 ## Padrões de Implementação
 
@@ -179,3 +209,33 @@ Antes de criar um novo componente, verifique:
 - [ ] Fontes configuradas no layout
 - [ ] 'use client' apenas se necessário (interatividade)
 - [ ] Base UI usado para componentes com comportamento
+
+### Padrão de Estrutura de Arquivos
+
+Para componentes com constantes/variantes, usar a estrutura de pasta:
+
+```
+ComponentName/
+├── index.tsx              → export { ComponentName } from "./component"
+├── component.styles.ts   → export const componentTv = tv({...})
+├── component.types.ts    → export interface ComponentNameProps {...}
+└── component.constants.ts → constantes/funções utilitárias (se necessário)
+```
+
+No `index.tsx`:
+
+```typescript
+export { ComponentName } from "./component";
+export type { ComponentNameProps } from "./component.types";
+```
+
+No arquivo principal do componente (`component.tsx`):
+
+```typescript
+import { componentTv } from "./component.styles";
+import type { ComponentNameProps } from "./component.types";
+
+export function ComponentName({ className, variant, ...props }: ComponentNameProps) {
+  return <div className={componentTv({ variant, className })} {...props} />;
+}
+```

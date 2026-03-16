@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { CodeEditor } from "@/components/ui/code-editor";
+import { Button } from "@/components/ui/Button";
+import { CodeEditor } from "@/components/ui/CodeEditor";
+import { Toggle } from "@/components/ui/Toggle";
 import { TableRow } from "@/components/ui/table-row";
-import { Toggle } from "@/components/ui/toggle";
 
 export default function Home() {
 	const [roastMode, setRoastMode] = useState(false);
+	const [code, setCode] = useState("");
+	const isOverLimit = code.length > 10000;
 
 	return (
 		<main className="mx-auto flex max-w-5xl  flex-col gap-8 px-10 py-20">
@@ -25,14 +27,19 @@ export default function Home() {
 			</div>
 
 			{/* Code Input */}
-			<CodeEditor size="full" className="w-full" />
+			<CodeEditor
+				size="full"
+				height="lg"
+				className="w-full"
+				onCodeChange={setCode}
+			/>
 
 			{/* Actions Bar */}
 			<div className="flex items-center justify-between">
 				<Toggle checked={roastMode} onPressedChange={setRoastMode}>
 					roast mode
 				</Toggle>
-				<Button disabled variant="default">
+				<Button disabled={isOverLimit} variant="default">
 					$ roast_my_code
 				</Button>
 			</div>
