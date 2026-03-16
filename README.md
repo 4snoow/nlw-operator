@@ -31,6 +31,9 @@ DevRoast é uma ferramenta que analisa seu código e dá um feedback honesto e i
 - **Syntax Highlighting**: Shiki
 - **ORM**: Drizzle ORM
 - **Banco de Dados**: Neon (PostgreSQL serverless)
+- **API**: tRPC + TanStack React Query
+- **Validação**: Zod
+- **Animações**: Number Flow
 - **Linting**: Biome
 - **Gerador de Imagens**: html-to-image
 

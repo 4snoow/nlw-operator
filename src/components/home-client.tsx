@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useState } from "react";
-import { Metrics, MetricsSkeleton } from "@/components/metrics";
+import { useState } from "react";
+import { Metrics } from "@/components/metrics";
 import { Button } from "@/components/ui/Button";
 import { CodeEditor } from "@/components/ui/CodeEditor";
 import { Toggle } from "@/components/ui/Toggle";
@@ -16,12 +16,15 @@ export function HomeClient() {
 	return (
 		<main className="mx-auto flex max-w-5xl  flex-col gap-8 px-10 py-20">
 			{/* Hero */}
-			<div className="flex flex-col gap-3">
-				<h1 className="flex items-center gap-3 font-bold font-mono text-[#fafafa] text-[36px]">
+			<div className="flex flex-col gap-3 items-center">
+				<h1 className="flex items-center gap-3 font-bold font-mono text-[#fafafa] text-[36px] ">
 					<span className="text-primary">&gt;</span>
 					paste your code. get roasted.
 				</h1>
-				<p className="font-mono text-gray-500 text-sm">full roast mode</p>
+				<p className="font-mono text-gray-500 text-sm">
+					{'//'} drop your code below and we&apos;ll rate it &mdash; brutally honest or
+					full roast mode
+				</p>
 			</div>
 
 			{/* Code Input */}
@@ -48,14 +51,25 @@ export function HomeClient() {
 			{/* Leaderboard Preview */}
 			<div className="flex flex-col gap-6">
 				<div className="flex items-center justify-between">
-					<h2 className="font-mono text-gray-500 text-sm"></h2>
+					<div className="flex w-full items-center gap-2">
+						<span className="font-mono text-accent-green text-sm font-bold">
+							{'//'}
+						</span>
+						<h2 className="font-mono text-[#fafafa] text-md font-bold">
+							shame_leaderboard
+						</h2>
 					<Link
 						href="/leaderboard"
-						className="flex items-center gap-1 rounded border border-border-primary px-3 py-1.5 font-mono text-gray-500 text-xs"
+						className="flex items-center gap-1 rounded border border-border-primary px-3 py-1.5 font-mono text-gray-500 text-xs ml-auto"
 					>
 						$ view_all &gt;&gt;
 					</Link>
+					</div>
 				</div>
+
+				<p className="font-mono text-gray-500 text-sm">
+					the worst code on the internet, ranked by shame
+				</p>
 
 				<div className="overflow-hidden rounded border border-border-primary">
 					{/* Header */}
