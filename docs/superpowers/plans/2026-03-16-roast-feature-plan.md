@@ -140,7 +140,6 @@ import { openai, getSystemPrompt, type RoastResponse } from "@/lib/openai";
 
 const createRoastInput = z.object({
   code: z.string().min(1).max(10000),
-  language: z.string().min(1).default("auto"),
   roastMode: z.boolean().default(false),
 });
 
@@ -178,7 +177,7 @@ export const roastRouter = router({
 
         const [savedCode] = await db.insert(codes).values({
           code: input.code,
-          language: input.language,
+          language: "auto", // Auto-detected by OpenAI
           status: roastData.verdict,
           score: roastData.score,
           roast: JSON.stringify(roastData),
@@ -284,7 +283,6 @@ export function HomeClient({ children }: HomeClientProps) {
   const router = useRouter();
   const [roastMode, setRoastMode] = useState(false);
   const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("auto");
   const isOverLimit = code.length > 10000;
 
   const createRoast = trpc.roast.createRoast.useMutation({
@@ -300,7 +298,6 @@ export function HomeClient({ children }: HomeClientProps) {
     if (!code.trim()) return;
     createRoast.mutate({
       code,
-      language,
       roastMode,
     });
   };
@@ -411,7 +408,12 @@ export default async function RoastResultsPage({ params }: { params: Promise<{ i
     notFound();
   }
 
-  const roastData = JSON.parse(codeEntry.roast);
+  let roastData;
+  try {
+    roastData = JSON.parse(codeEntry.roast);
+  } catch {
+    notFound(); // Invalid data, treat as not found
+  }
   
   // ... rest of render using codeEntry and roastData
 }
