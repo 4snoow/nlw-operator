@@ -19,10 +19,7 @@ export default async function Image({
 	});
 
 	if (!codeEntry) {
-		return new ImageResponse(<Root>Roast not found</Root>, {
-			...size,
-			tailwind: false,
-		});
+		return new ImageResponse(<Root>Roast not found</Root>, { ...size });
 	}
 
 	const roastData = JSON.parse(codeEntry.roast);
@@ -90,7 +87,7 @@ export default async function Image({
 				"{roastData.quote}"
 			</p>
 		</Root>,
-		{ ...size, tailwind: true },
+		{ ...size, jsx: { tailwindClassesProperty: "className" } },
 	);
 }
 
