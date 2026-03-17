@@ -102,7 +102,9 @@ export default function RoastResultsPage() {
 
 				<section className="flex flex-col gap-4">
 					<div className="flex items-center gap-2">
-						<span className="font-bold font-mono text-accent-green">{'//'}</span>
+						<span className="font-bold font-mono text-accent-green">
+							{"//"}
+						</span>
 						<h2 className="font-bold font-mono text-sm text-text-primary">
 							your_submission
 						</h2>
@@ -120,7 +122,9 @@ export default function RoastResultsPage() {
 
 				<section className="flex flex-col gap-6">
 					<div className="flex items-center gap-2">
-						<span className="font-bold font-mono text-accent-green">{'//'}</span>
+						<span className="font-bold font-mono text-accent-green">
+							{"//"}
+						</span>
 						<h2 className="font-bold font-mono text-sm text-text-primary">
 							detailed_analysis
 						</h2>
@@ -129,7 +133,7 @@ export default function RoastResultsPage() {
 					<div className="grid grid-cols-2 gap-5">
 						{roastData.issues.map((issue, index) => (
 							<Card
-								key={Math.random()}
+								key={index}
 								title={issue.title}
 								description={issue.description}
 								variant={issue.variant as "critical" | "warning" | "good"}
@@ -142,7 +146,9 @@ export default function RoastResultsPage() {
 
 				<section className="flex flex-col gap-4">
 					<div className="flex items-center gap-2">
-						<span className="font-bold font-mono text-accent-green">{'//'}</span>
+						<span className="font-bold font-mono text-accent-green">
+							{"//"}
+						</span>
 						<h2 className="font-bold font-mono text-sm text-text-primary">
 							suggested_fix
 						</h2>
@@ -157,7 +163,7 @@ export default function RoastResultsPage() {
 
 						<div className="flex flex-col py-1">
 							{roastData.diff.map((line, index) => (
-								<DiffLine key={Math.random()} type={line.type} code={line.code} />
+								<DiffLine key={index} type={line.type} code={line.code} />
 							))}
 						</div>
 					</div>
