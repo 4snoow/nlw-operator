@@ -48,37 +48,49 @@ export const roastRouter = router({
     .input(createRoastInput)
     .output(createRoastOutput)
     .mutation(async ({ input }) => {
-      // 1. Call OpenAI API with prompt
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-          { role: "system", content: getSystemPrompt(input.roastMode) },
-          { role: "user", content: input.code },
-        ],
-        response_format: { type: "json_object" },
-        temperature: input.roastMode ? 0.8 : 0.3,
-      });
+      try {
+        // 1. Call OpenAI API with prompt
+        const response = await openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            { role: "system", content: getSystemPrompt(input.roastMode) },
+            { role: "user", content: input.code },
+          ],
+          response_format: { type: "json_object" },
+          temperature: input.roastMode ? 0.8 : 0.3,
+        });
 
-      // 2. Parse AI response (JSON)
-      const content = response.choices[0]?.message?.content;
-      if (!content) {
-        throw new Error("No response from AI");
+        // 2. Parse AI response (JSON)
+        const content = response.choices[0]?.message?.content;
+        if (!content) {
+          throw new Error("No response from AI");
+        }
+
+        let roastData: RoastResponse;
+        try {
+          roastData = JSON.parse(content) as RoastResponse;
+        } catch {
+          throw new Error("Invalid response format from AI");
+        }
+
+        // 3. Save to database
+        const [savedCode] = await db.insert(codes).values({
+          code: input.code,
+          language: input.language,
+          status: roastData.verdict,
+          score: roastData.score,
+          roast: JSON.stringify(roastData),
+          roastMode: input.roastMode,
+        }).returning({ id: codes.id });
+
+        // 4. Return ID for redirect
+        return { id: savedCode.id };
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`Roast failed: ${error.message}`);
+        }
+        throw new Error("Roast failed: Unknown error");
       }
-
-      const roastData = JSON.parse(content) as RoastResponse;
-
-      // 3. Save to database
-      const [savedCode] = await db.insert(codes).values({
-        code: input.code,
-        language: input.language,
-        status: roastData.verdict,
-        score: roastData.score,
-        roast: JSON.stringify(roastData),
-        roastMode: input.roastMode,
-      }).returning({ id: codes.id });
-
-      // 4. Return ID for redirect
-      return { id: savedCode.id };
     }),
 });
 ```
@@ -223,7 +235,23 @@ OPENAI_API_KEY=sk-...
 ### Step 2: Create roast router
 - Create `src/server/api/routers/roast.ts`
 - Implement `createRoast` mutation
-- Add to `src/server/api/routers/_app.ts`
+- Add to `src/server/api/routers/_app.ts`:
+
+```typescript
+// src/server/api/routers/_app.ts
+import { router } from '../trpc';
+import { leaderboardRouter } from './leaderboard';
+import { metricsRouter } from './metrics';
+import { roastRouter } from './roast';
+
+export const appRouter = router({
+  leaderboard: leaderboardRouter,
+  metrics: metricsRouter,
+  roast: roastRouter,
+});
+
+export type AppRouter = typeof appRouter;
+```
 
 ### Step 3: Create prompt system
 - Define system prompt for constructive feedback
@@ -234,6 +262,69 @@ OPENAI_API_KEY=sk-...
 - Connect button to mutation
 - Add loading state handling
 - Add redirect logic
+
+**File**: `src/components/home-client.tsx`
+
+```typescript
+"use client";
+
+import { useRouter } from "next/navigation";
+import { trpc } from "@/trpc/client";
+
+export function HomeClient({ children }: HomeClientProps) {
+  const router = useRouter();
+  const [roastMode, setRoastMode] = useState(false);
+  const [code, setCode] = useState("");
+  const [language, setLanguage] = useState("auto");
+  const isOverLimit = code.length > 10000;
+
+  const createRoast = trpc.roast.createRoast.useMutation({
+    onSuccess: (data) => {
+      router.push(`/roast/${data.id}`);
+    },
+    onError: (error) => {
+      alert(error.message); // Or use toast
+    },
+  });
+
+  const handleRoast = () => {
+    if (!code.trim()) return;
+    createRoast.mutate({
+      code,
+      language,
+      roastMode,
+    });
+  };
+
+  return (
+    <>
+      {/* CodeEditor */}
+      <CodeEditor
+        size="full"
+        height="lg"
+        className="w-full"
+        onCodeChange={setCode}
+      />
+
+      {/* Actions Bar */}
+      <div className="flex items-center justify-between">
+        <Toggle checked={roastMode} onPressedChange={setRoastMode}>
+          roast mode
+        </Toggle>
+        <Button
+          disabled={isOverLimit || createRoast.isLoading}
+          variant="default"
+          onClick={handleRoast}
+        >
+          {createRoast.isLoading ? "roasting..." : "$ roast_my_code"}
+        </Button>
+      </div>
+
+      {/* ... rest */}
+    </>
+  );
+}
+```
 
 ### Step 5: Create loading page
 - Create `src/app/roast/loading.tsx`
