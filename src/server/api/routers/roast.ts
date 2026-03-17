@@ -6,6 +6,7 @@ import { publicProcedure, router } from "../trpc";
 
 const createRoastInput = z.object({
 	code: z.string().min(1).max(10000),
+	language: z.string().default("javascript"),
 	roastMode: z.boolean().default(false),
 });
 
@@ -45,7 +46,7 @@ export const roastRouter = router({
 					.insert(codes)
 					.values({
 						code: input.code,
-						language: "auto",
+						language: input.language,
 						status: roastData.verdict as
 							| "critical"
 							| "needs_serious_help"

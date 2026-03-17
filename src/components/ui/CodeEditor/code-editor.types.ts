@@ -7,4 +7,5 @@ export interface CodeEditorProps
 	initialCode?: string;
 	showControls?: boolean;
 	onCodeChange?: (code: string) => void;
+	onLanguageChange?: (language: string) => void;
 }

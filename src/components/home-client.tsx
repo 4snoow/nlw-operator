@@ -16,6 +16,7 @@ export function HomeClient({ children }: HomeClientProps) {
 	const router = useRouter();
 	const [roastMode, setRoastMode] = useState(false);
 	const [code, setCode] = useState("");
+	const [language, setLanguage] = useState("javascript");
 	const isOverLimit = code.length > 10000;
 
 	const createRoast = trpc.roast.createRoast.useMutation({
@@ -31,6 +32,7 @@ export function HomeClient({ children }: HomeClientProps) {
 		if (!code.trim()) return;
 		createRoast.mutate({
 			code,
+			language,
 			roastMode,
 		});
 	};
@@ -55,6 +57,7 @@ export function HomeClient({ children }: HomeClientProps) {
 				height="lg"
 				className="w-full"
 				onCodeChange={setCode}
+				onLanguageChange={setLanguage}
 			/>
 
 			{/* Actions Bar */}
