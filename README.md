@@ -35,7 +35,9 @@ DevRoast é uma ferramenta que analisa seu código e dá um feedback honesto e i
 - **Validação**: Zod
 - **Animações**: Number Flow
 - **Linting**: Biome
-- **Gerador de Imagens**: html-to-image
+- **Gerador de Imagens**: Takumi (OG Images)
+- **AI**: OpenAI (GPT-4o)
+- **Utilitários**: clsx, tailwind-merge, tailwind-variants
 
 ## Configuração
 
@@ -63,6 +65,8 @@ DATABASE_URL=postgresql://neondb_owner:password@host.neon.tech/neondb?sslmode=re
 ```bash
 npm run dev          # Iniciar servidor de desenvolvimento
 npm run build        # Build de produção
+npm run start        # Iniciar servidor de produção
+npm run lint         # Verificar lint
 npm run db:seed      # Seed básico do banco
 npm run db:seed:faker # Seed com 100 roasts de exemplo
 ```
