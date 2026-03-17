@@ -35,7 +35,7 @@ import { openai } from "@/lib/openai";
 
 const createRoastInput = z.object({
   code: z.string().min(1).max(10000),
-  language: z.string(),
+  language: z.string().min(1).default("auto"),
   roastMode: z.boolean().default(false),
 });
 
