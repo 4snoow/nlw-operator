@@ -1,13 +1,4 @@
-import { LeaderboardRow } from "@/components/leaderboard-row";
-import { trpc } from "@/trpc/server";
-
-export const revalidate = 3600;
-
-export default async function LeaderboardPage() {
-	const leaderboard = await trpc.leaderboard.getLeaderboard({ limit: 20 });
-
-	const total = leaderboard.length;
-
+function LeaderboardLoadingSkeleton() {
 	return (
 		<main className="mx-auto flex min-h-[calc(100vh-56px)] max-w-5xl flex-col gap-10 px-20 py-10">
 			<section className="flex flex-col gap-4">
@@ -23,9 +14,9 @@ export default async function LeaderboardPage() {
 					the worst code on the internet, ranked by shame
 				</p>
 				<div className="flex items-center gap-2 font-mono text-text-tertiary text-xs">
-					<span>{total.toLocaleString()} submissions</span>
+					<span className="h-4 w-24 animate-pulse rounded bg-gray-700" />
 					<span>·</span>
-					<span>showing top {total}</span>
+					<span className="h-4 w-20 animate-pulse rounded bg-gray-700" />
 				</div>
 			</section>
 
@@ -44,17 +35,19 @@ export default async function LeaderboardPage() {
 						lang
 					</span>
 				</div>
-				{leaderboard.map((entry, index) => (
-					<LeaderboardRow
-						key={entry.id}
-						id={entry.id}
-						code={entry.code}
-						language={entry.language}
-						score={entry.score}
-						rank={index + 1}
-					/>
+				{[1, 2, 3, 4, 5].map((i) => (
+					<div
+						key={i}
+						className="flex h-[120px] animate-pulse items-center justify-center rounded border border-border-primary bg-bg-input"
+					>
+						<span className="font-mono text-gray-500 text-xs">loading...</span>
+					</div>
 				))}
 			</section>
 		</main>
 	);
+}
+
+export default function LeaderboardLoading() {
+	return <LeaderboardLoadingSkeleton />;
 }
