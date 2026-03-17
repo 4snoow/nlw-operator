@@ -1,19 +1,39 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { type ReactNode, useState } from "react";
 import { Metrics } from "@/components/metrics";
 import { Button } from "@/components/ui/Button";
 import { CodeEditor } from "@/components/ui/CodeEditor";
 import { Toggle } from "@/components/ui/Toggle";
+import { trpc } from "@/trpc/client";
 
 interface HomeClientProps {
 	children: ReactNode;
 }
 
 export function HomeClient({ children }: HomeClientProps) {
+	const router = useRouter();
 	const [roastMode, setRoastMode] = useState(false);
 	const [code, setCode] = useState("");
 	const isOverLimit = code.length > 10000;
+
+	const createRoast = trpc.roast.createRoast.useMutation({
+		onSuccess: (data) => {
+			router.push(`/roast/${data.id}`);
+		},
+		onError: (error) => {
+			alert(error.message);
+		},
+	});
+
+	const handleRoast = () => {
+		if (!code.trim()) return;
+		createRoast.mutate({
+			code,
+			roastMode,
+		});
+	};
 
 	return (
 		<>
@@ -42,8 +62,12 @@ export function HomeClient({ children }: HomeClientProps) {
 				<Toggle checked={roastMode} onPressedChange={setRoastMode}>
 					roast mode
 				</Toggle>
-				<Button disabled={isOverLimit} variant="default">
-					$ roast_my_code
+				<Button
+					disabled={isOverLimit || createRoast.isPending}
+					variant="default"
+					onClick={handleRoast}
+				>
+					{createRoast.isPending ? "roasting..." : "$ roast_my_code"}
 				</Button>
 			</div>
 
