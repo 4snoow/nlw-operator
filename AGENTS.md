@@ -65,3 +65,34 @@ getLeaderboard: publicProcedure
     return leaderboard;
   }),
 ```
+
+## Metadata para Rotas Dinâmicas
+
+Para páginas dinâmicas que precisam de SEO e social previews:
+
+1. **metadata.ts** - gera title, description e OpenGraph metadata
+2. **opengraph-image.tsx** - gera imagem para Twitter/Facebook/LinkedIn
+
+Exemplo em `src/app/roast/[id]/`:
+
+```typescript
+// metadata.ts
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const data = await getData((await params).id);
+  
+  return {
+    title: `Score: ${data.score}/10 | DevRoast`,
+    description: data.quote,
+    openGraph: {
+      title: `DevRoast - Score ${data.score}/10`,
+      description: data.quote,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+  };
+}
+```
