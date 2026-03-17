@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "@/db";
 import { codes } from "@/db/schema";
-import { getSystemPrompt, openai, type RoastResponse } from "@/lib/openai";
+import { getSystemPrompt, groq, type RoastResponse } from "@/lib/groq";
 import { publicProcedure, router } from "../trpc";
 
 const createRoastInput = z.object({
@@ -19,8 +19,8 @@ export const roastRouter = router({
 		.output(createRoastOutput)
 		.mutation(async ({ input }) => {
 			try {
-				const response = await openai.chat.completions.create({
-					model: "gpt-4o",
+				const response = await groq.chat.completions.create({
+					model: "llama-3.3-70b-versatile",
 					messages: [
 						{ role: "system", content: getSystemPrompt(input.roastMode) },
 						{ role: "user", content: input.code },

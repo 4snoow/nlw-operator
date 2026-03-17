@@ -65,6 +65,7 @@ export function HomeClient({ children }: HomeClientProps) {
 				<Button
 					disabled={isOverLimit || createRoast.isPending}
 					variant="default"
+					className="cursor-pointer"
 					onClick={handleRoast}
 				>
 					{createRoast.isPending ? "roasting..." : "$ roast_my_code"}
